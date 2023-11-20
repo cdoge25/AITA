@@ -9,6 +9,6 @@
 start_epoch = 1
 end_epoch = start_epoch + 36000
 subreddit_name = "AmItheAsshole"
-example_api_url = f"https://api.pullpush.io/reddit/search/submission/?subreddit={subreddit_name}&after={start_epoch}6&before={end_epoch}"
+example_api_url = f"https://api.pullpush.io/reddit/search/submission/?subreddit={subreddit_name}&after={start_epoch}&before={end_epoch}"
 
-#
+#main
