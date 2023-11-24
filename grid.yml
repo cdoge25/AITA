@@ -1,0 +1,24 @@
+version: '1.0'
+
+services:
+
+  chrome:
+    image: seleniarm/standalone-chromium:latest
+    shm_size: '2gb'
+    container_name: chrome
+    hostname: chrome
+    restart: always
+    privileged: true
+    environment:
+      - SE_NODE_OVERRIDE_MAX_SESSIONS=true
+      - SE_NODE_MAX_SESSIONS=10
+      - SE_NODE_SESSION_TIMEOUT=7200
+      - SE_VNC_NO_PASSWORD=1
+    ports:
+      - 4444:4444
+    deploy:
+      resources:
+        limits:
+          memory: 10G
+        reservations:
+          memory: 2G

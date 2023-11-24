@@ -12,14 +12,13 @@ import time
 
 if __name__ == "__main__":
     try:
-        inserted_num = 0
         loop_num = 0
         while True:
             # Pickup current progress
-            with open("current_progress.json", mode="r") as f:
-                current_progress = json.loads(f.read())
-            start_epoch = current_progress["start_epoch"]
-            end_epoch = current_progress["end_epoch"]
+            with open("other_progress.json", mode="r") as f:
+                other_progress = json.loads(f.read())
+            start_epoch = other_progress["start_epoch"]
+            end_epoch = other_progress["end_epoch"]
             if end_epoch > 1700000000:
                 break
             
@@ -42,27 +41,30 @@ if __name__ == "__main__":
                 'link_flair_text': 'verdict',
             }, inplace=True)
             
-            path_new = "aita_new.csv"
+            path_new = "aita_2023_07_25-31.csv"
             if not os.path.exists(path_new):
                 df_new.to_csv(path_new, mode="w", index=False, header=True)
             else:
                 df_new.to_csv(path_new, mode="a", index=False, header=False)
             
             # Update current progress
-            replace_progress = {
+            updated_progress = {
                 "start_epoch": end_epoch,
-                "end_epoch": end_epoch + 3600
+                "end_epoch": end_epoch + 3600,
+                "day": other_progress["day"],
+                "month": other_progress["month"],
+                "year": other_progress["year"]
             }
-            with open('current_progress.json', 'w') as f:
-                json.dump(replace_progress, f, indent=4)
+            with open('other_progress.json', 'w') as f:
+                json.dump(updated_progress, f, indent=4)
 
-            inserted_num += len(df_new.index)
+            inserted_num = len(df_new.index)
             loop_num += 1
-            print(f"gone through {loop_num} loops, inserted {inserted_num} items")
+            print(f"loop {loop_num}, inserted {inserted_num} items")
             
             time.sleep(1)
     except:
-        with open("current_progress.json", mode="r") as f:
-            current_progress = json.loads(f.read())
-        start_epoch = current_progress["start_epoch"]
+        with open("other_progress.json", mode="r") as f:
+            other_progress = json.loads(f.read())
+        start_epoch = other_progress["start_epoch"]
         print(f"error at epoch: {start_epoch}")
